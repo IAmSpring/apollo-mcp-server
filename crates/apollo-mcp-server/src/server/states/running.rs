@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use apollo_compiler::{Schema, validation::Valid};
 use reqwest::header::HeaderMap;
-use rmcp::model::Implementation;
+use rmcp::model::{Implementation, LoggingMessageNotificationParam};
 use rmcp::{
     Peer, RoleServer, ServerHandler, ServiceError,
     model::{
@@ -159,6 +159,10 @@ impl Running {
         }
         *peers = retained_peers;
     }
+
+    async fn notify_logging_message(params: LoggingMessageNotificationParam) {
+
+    }
 }
 
 impl ServerHandler for Running {
@@ -259,6 +263,7 @@ impl ServerHandler for Running {
             capabilities: ServerCapabilities::builder()
                 .enable_tools()
                 .enable_tool_list_changed()
+                .enable_logging()
                 .build(),
             ..Default::default()
         }
