@@ -6,10 +6,11 @@
 mod config;
 mod graphos;
 mod introspection;
+pub(crate) mod logging;
 mod operation_source;
 mod overrides;
 mod schema_source;
-pub mod schemas;
+mod schemas;
 
 use std::path::Path;
 

@@ -4,7 +4,7 @@ use super::{
     OperationSource, SchemaSource, graphos::GraphOSConfig, introspection::Introspection,
     overrides::Overrides,
 };
-use crate::logging::Logging;
+use crate::runtime::logging::Logging;
 use apollo_mcp_server::server::Transport;
 use reqwest::header::HeaderMap;
 use schemars::JsonSchema;
