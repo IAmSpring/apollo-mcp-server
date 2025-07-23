@@ -28,3 +28,23 @@ target/
 
 # Symlink created by nix
 result
+
+# Node.js dependencies
+node_modules/
+frontend/node_modules/
+
+# Node.js build outputs
+frontend/build/
+frontend/dist/
+
+# Node.js logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

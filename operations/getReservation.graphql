@@ -1,0 +1,27 @@
+query GetReservation($confirmationNumber: String!) {
+  reservation(confirmationNumber: $confirmationNumber) {
+    id
+    confirmationNumber
+    guestName
+    email
+    phone
+    checkIn
+    checkOut
+    roomType
+    numberOfGuests
+    status
+    totalAmount
+    currency
+    hotel {
+      id
+      name
+      address
+      city
+      state
+      country
+      phone
+    }
+    createdAt
+    updatedAt
+  }
+} 

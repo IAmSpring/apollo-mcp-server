@@ -1,0 +1,35 @@
+query SearchHotels($location: String!, $checkIn: Date!, $checkOut: Date!, $guests: Int, $roomType: String) {
+  searchHotels(
+    location: $location
+    checkIn: $checkIn
+    checkOut: $checkOut
+    guests: $guests
+    roomType: $roomType
+  ) {
+    id
+    name
+    address
+    city
+    state
+    country
+    zipCode
+    phone
+    email
+    website
+    rating
+    reviewCount
+    amenities
+    images
+    availableRooms
+    priceRange {
+      min
+      max
+      currency
+    }
+    distance
+    coordinates {
+      latitude
+      longitude
+    }
+  }
+} 

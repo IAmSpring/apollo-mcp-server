@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  marriott-mcp-server:
+    build: .
+    ports:
+      - "3000:80"    # React frontend
+      - "5000:5000"  # MCP server
+    environment:
+      - APOLLO_MCP_ENDPOINT=http://localhost:4000/graphql
+      - APOLLO_MCP_TRANSPORT__TYPE=streamable_http
+      - APOLLO_MCP_TRANSPORT__PORT=5000
+      - APOLLO_MCP_TRANSPORT__ADDRESS=0.0.0.0
+      - APOLLO_MCP_LOGGING__LEVEL=info
+    volumes:
+      - ./config.yaml:/data/config/config.yaml:ro
+      - ./operations:/data/operations:ro
+      - ./schema.graphql:/data/schema.graphql:ro
+    networks:
+      - marriott-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Mock GraphQL API for testing
+  mock-graphql-api:
+    image: node:18-alpine
+    working_dir: /app
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./mock-api:/app
+    command: >
+      sh -c "npm install && npm start"
+    networks:
+      - marriott-network
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+
+networks:
+  marriott-network:
+    driver: bridge
+
+volumes:
+  mcp-data: 

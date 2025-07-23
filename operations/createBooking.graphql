@@ -1,0 +1,26 @@
+mutation CreateBooking($input: CreateBookingInput!) {
+  createBooking(input: $input) {
+    id
+    confirmationNumber
+    guestName
+    email
+    phone
+    checkIn
+    checkOut
+    roomType
+    numberOfGuests
+    status
+    totalAmount
+    currency
+    hotel {
+      id
+      name
+      address
+      city
+      state
+      country
+    }
+    createdAt
+    updatedAt
+  }
+} 

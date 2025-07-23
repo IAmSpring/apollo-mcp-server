@@ -1,0 +1,34 @@
+endpoint: http://localhost:4000/graphql
+transport:
+  type: streamable_http
+  port: 5000
+  address: 0.0.0.0
+
+operations:
+  source: local
+  paths:
+    - /data/operations
+
+schema:
+  source: local
+  path: /data/schema.graphql
+
+introspection:
+  execute:
+    enabled: true
+  introspect:
+    enabled: true
+  search:
+    enabled: true
+    index_memory_bytes: 268435456  # 256MB
+
+overrides:
+  mutation_mode: all
+
+logging:
+  level: info
+  format: json
+
+headers:
+  Content-Type: application/json
+  User-Agent: Marriott-MCP-Server/1.0 
