@@ -1,28 +1,20 @@
-query GetReservation($id: Int!) {
-  booking(id: $id) {
+query GetBookings {
+  bookings {
     id
     userId
     user {
       name
       email
-      bonvoyNumber
-      bonvoyPoints
-      bonvoyStatus
     }
     hotelId
     hotel {
       name
       location
-      address
-      rating
     }
     roomId
     room {
       type
-      description
       price
-      capacity
-      amenities
     }
     checkIn
     checkOut
@@ -30,12 +22,6 @@ query GetReservation($id: Int!) {
     totalPrice
     status
     orderId
-    order {
-      stripeId
-      amount
-      currency
-      status
-    }
     createdAt
     updatedAt
   }

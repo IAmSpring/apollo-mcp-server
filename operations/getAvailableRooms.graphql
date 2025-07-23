@@ -1,0 +1,17 @@
+query GetAvailableRooms($hotelId: String!, $checkIn: String!, $checkOut: String!) {
+  availableRooms(hotelId: $hotelId, checkIn: $checkIn, checkOut: $checkOut) {
+    id
+    hotelId
+    hotel {
+      name
+      location
+    }
+    type
+    description
+    price
+    capacity
+    amenities
+    imageUrl
+    available
+  }
+} 

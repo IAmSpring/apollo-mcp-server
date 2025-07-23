@@ -1,0 +1,19 @@
+query GetReservations {
+  reservations {
+    id
+    restaurantId
+    restaurant {
+      name
+      cuisine
+      hotel {
+        name
+      }
+    }
+    date
+    time
+    partySize
+    status
+    createdAt
+    updatedAt
+  }
+} 

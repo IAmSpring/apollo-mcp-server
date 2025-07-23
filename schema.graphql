@@ -1,5 +1,14 @@
 type Query {
-  reservation(confirmationNumber: String!): Reservation
+  # User queries
+  users: [User!]!
+  user(id: Int!): User
+  userByEmail(email: String!): User
+  
+  # Hotel queries
+  hotels: [Hotel!]!
+  hotel(id: String!): Hotel
+  hotelsByLocation(location: String!): [Hotel!]!
+  hotelsByRating(minRating: Float!): [Hotel!]!
   searchHotels(
     location: String!
     checkIn: String!
@@ -7,95 +16,464 @@ type Query {
     guests: Int
     roomType: String
   ): [Hotel!]!
-  hotels: [Hotel!]!
-  hotel(id: ID!): Hotel
+  
+  # Room queries
+  rooms: [Room!]!
+  room(id: String!): Room
+  roomsByHotel(hotelId: String!): [Room!]!
+  availableRooms(hotelId: String!, checkIn: String!, checkOut: String!): [Room!]!
+  
+  # Amenity queries
+  amenities: [Amenity!]!
+  amenity(id: String!): Amenity
+  amenitiesByHotel(hotelId: String!): [Amenity!]!
+  amenitiesByCategory(category: String!): [Amenity!]!
+  
+  # Restaurant queries
+  restaurants: [Restaurant!]!
+  restaurant(id: String!): Restaurant
+  restaurantsByHotel(hotelId: String!): [Restaurant!]!
+  restaurantsByCuisine(cuisine: String!): [Restaurant!]!
+  
+  # Reservation queries
+  reservations: [Reservation!]!
+  reservation(id: String!): Reservation
+  reservationsByRestaurant(restaurantId: String!): [Reservation!]!
+  reservationsByDate(date: String!): [Reservation!]!
+  
+  # Experience queries
+  experiences: [Experience!]!
+  experience(id: String!): Experience
+  experiencesByHotel(hotelId: String!): [Experience!]!
+  experiencesByType(type: String!): [Experience!]!
+  
+  # Experience Booking queries
+  experienceBookings: [ExperienceBooking!]!
+  experienceBooking(id: String!): ExperienceBooking
+  experienceBookingsByExperience(experienceId: String!): [ExperienceBooking!]!
+  
+  # Booking queries
+  bookings: [Booking!]!
+  booking(id: Int!): Booking
+  bookingsByUser(userId: Int!): [Booking!]!
+  bookingsByHotel(hotelId: String!): [Booking!]!
+  bookingsByStatus(status: String!): [Booking!]!
+  
+  # Order queries
+  orders: [Order!]!
+  order(id: Int!): Order
+  ordersByUser(userId: Int!): [Order!]!
+  ordersByStatus(status: String!): [Order!]!
+  
+  # Review queries
+  reviews: [Review!]!
+  review(id: String!): Review
+  reviewsByHotel(hotelId: String!): [Review!]!
+  reviewsByUser(userId: Int!): [Review!]!
+  
+  # Conversation queries
+  conversations: [Conversation!]!
+  conversation(id: String!): Conversation
+  conversationsByUser(userId: Int!): [Conversation!]!
+  
+  # Analytics queries
+  hotelAnalytics(hotelId: String!): HotelAnalytics
+  bookingAnalytics: BookingAnalytics
+  revenueAnalytics: RevenueAnalytics
+  userAnalytics: UserAnalytics
+  occupancyAnalytics: OccupancyAnalytics
 }
 
 type Mutation {
-  createBooking(input: CreateBookingInput!): Reservation!
-  updateReservation(input: UpdateReservationInput!): Reservation!
-  cancelReservation(confirmationNumber: String!): Reservation!
+  # User mutations
+  createUser(input: UserInput!): User!
+  updateUser(id: Int!, input: UserInput!): User!
+  deleteUser(id: Int!): User!
+  
+  # Hotel mutations
+  createHotel(input: HotelInput!): Hotel!
+  updateHotel(id: String!, input: HotelInput!): Hotel!
+  deleteHotel(id: String!): Hotel!
+  
+  # Room mutations
+  createRoom(input: RoomInput!): Room!
+  updateRoom(id: String!, input: RoomInput!): Room!
+  deleteRoom(id: String!): Room!
+  
+  # Amenity mutations
+  createAmenity(input: AmenityInput!): Amenity!
+  updateAmenity(id: String!, input: AmenityInput!): Amenity!
+  deleteAmenity(id: String!): Amenity!
+  
+  # Restaurant mutations
+  createRestaurant(input: RestaurantInput!): Restaurant!
+  updateRestaurant(id: String!, input: RestaurantInput!): Restaurant!
+  deleteRestaurant(id: String!): Restaurant!
+  
+  # Reservation mutations
+  createReservation(input: ReservationInput!): Reservation!
+  updateReservation(id: String!, input: ReservationInput!): Reservation!
+  deleteReservation(id: String!): Reservation!
+  
+  # Experience mutations
+  createExperience(input: ExperienceInput!): Experience!
+  updateExperience(id: String!, input: ExperienceInput!): Experience!
+  deleteExperience(id: String!): Experience!
+  
+  # Experience Booking mutations
+  createExperienceBooking(input: ExperienceBookingInput!): ExperienceBooking!
+  updateExperienceBooking(id: String!, input: ExperienceBookingInput!): ExperienceBooking!
+  deleteExperienceBooking(id: String!): ExperienceBooking!
+  
+  # Booking mutations
+  createBooking(input: BookingInput!): Booking!
+  updateBooking(id: Int!, input: BookingInput!): Booking!
+  deleteBooking(id: Int!): Booking!
+  
+  # Order mutations
+  createOrder(input: OrderInput!): Order!
+  updateOrder(id: Int!, input: OrderInput!): Order!
+  deleteOrder(id: Int!): Order!
+  
+  # Review mutations
+  createReview(input: ReviewInput!): Review!
+  updateReview(id: String!, input: ReviewInput!): Review!
+  deleteReview(id: String!): Review!
+  
+  # Conversation mutations
+  createConversation(input: ConversationInput!): Conversation!
+  updateConversation(id: String!, input: ConversationInput!): Conversation!
+  deleteConversation(id: String!): Conversation!
 }
 
-input CreateBookingInput {
-  guestName: String!
+type User {
+  id: Int!
+  name: String
   email: String!
-  phone: String!
-  checkIn: String!
-  checkOut: String!
-  roomType: String!
-  numberOfGuests: Int!
-  hotelId: ID!
-  specialRequests: String
+  password: String!
+  role: String!
+  bonvoyNumber: String
+  bonvoyPoints: Int!
+  bonvoyStatus: String!
+  createdAt: String!
+  updatedAt: String!
+  bookings: [Booking!]!
+  orders: [Order!]!
+  reviews: [Review!]!
+  conversations: [Conversation!]!
 }
 
-input UpdateReservationInput {
-  confirmationNumber: String!
-  guestName: String
-  email: String
-  phone: String
-  checkIn: String
-  checkOut: String
-  roomType: String
-  numberOfGuests: Int
-  specialRequests: String
+type Hotel {
+  id: String!
+  name: String!
+  location: String!
+  address: String!
+  description: String!
+  imageUrl: String!
+  rating: Float!
+  amenities: [Amenity!]!
+  rooms: [Room!]!
+  restaurants: [Restaurant!]!
+  experiences: [Experience!]!
+  reviews: [Review!]!
+  bookings: [Booking!]!
+}
+
+type Room {
+  id: String!
+  hotelId: String!
+  hotel: Hotel!
+  type: String!
+  description: String!
+  price: Float!
+  capacity: Int!
+  amenities: String!
+  imageUrl: String!
+  available: Boolean!
+  bookings: [Booking!]!
+}
+
+type Amenity {
+  id: String!
+  name: String!
+  category: String!
+  description: String!
+  imageUrl: String
+  hotelId: String!
+  hotel: Hotel!
+}
+
+type Restaurant {
+  id: String!
+  name: String!
+  hotelId: String!
+  hotel: Hotel!
+  cuisine: String!
+  priceRange: String!
+  openTime: String!
+  closeTime: String!
+  description: String!
+  imageUrl: String!
+  reservations: [Reservation!]!
 }
 
 type Reservation {
-  id: ID!
-  confirmationNumber: String!
-  guestName: String!
-  email: String!
-  phone: String!
-  checkIn: String!
-  checkOut: String!
-  roomType: String!
-  numberOfGuests: Int!
-  status: ReservationStatus!
-  totalAmount: Float!
-  currency: String!
+  id: String!
+  restaurantId: String!
+  restaurant: Restaurant!
+  date: String!
+  time: String!
+  partySize: Int!
+  status: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Experience {
+  id: String!
+  name: String!
+  hotelId: String!
   hotel: Hotel!
+  type: String!
+  description: String!
+  price: Float!
+  duration: Int!
+  imageUrl: String!
+  available: Boolean!
+  bookings: [ExperienceBooking!]!
+}
+
+type ExperienceBooking {
+  id: String!
+  experienceId: String!
+  experience: Experience!
+  date: String!
+  participants: Int!
+  status: String!
   specialRequests: String
   createdAt: String!
   updatedAt: String!
 }
 
-type Hotel {
-  id: ID!
-  name: String!
-  address: String!
-  city: String!
-  state: String!
-  country: String!
-  zipCode: String!
-  phone: String!
-  email: String!
-  website: String!
-  rating: Float!
-  reviewCount: Int!
-  amenities: [String!]!
-  images: [String!]!
-  availableRooms: Int!
-  priceRange: PriceRange!
-  distance: Float
-  coordinates: Coordinates
+type Booking {
+  id: Int!
+  userId: Int!
+  user: User!
+  hotelId: String!
+  hotel: Hotel!
+  roomId: String!
+  room: Room!
+  checkIn: String!
+  checkOut: String!
+  guests: Int!
+  totalPrice: Float!
+  status: String!
+  orderId: Int
+  order: Order
+  createdAt: String!
+  updatedAt: String!
 }
 
-type PriceRange {
-  min: Float!
-  max: Float!
+type Order {
+  id: Int!
+  userId: Int!
+  user: User!
+  bookings: [Booking!]!
+  stripeId: String!
+  amount: Float!
   currency: String!
+  status: String!
+  createdAt: String!
+  updatedAt: String!
 }
 
-type Coordinates {
-  latitude: Float!
-  longitude: Float!
+type Review {
+  id: String!
+  userId: Int!
+  user: User!
+  hotelId: String!
+  hotel: Hotel!
+  rating: Int!
+  comment: String!
+  createdAt: String!
+  updatedAt: String!
 }
 
-enum ReservationStatus {
-  CONFIRMED
-  PENDING
-  CANCELLED
-  COMPLETED
-  NO_SHOW
+type Conversation {
+  id: String!
+  userId: Int!
+  user: User!
+  userMessage: String!
+  aiResponse: String!
+  threadId: String
+  timestamp: String!
+}
+
+# Analytics Types
+type HotelAnalytics {
+  hotelId: String!
+  totalBookings: Int!
+  averageRating: Float!
+  occupancyRate: Float!
+  revenue: Float!
+  topAmenities: [String!]!
+  popularRooms: [String!]!
+}
+
+type BookingAnalytics {
+  totalBookings: Int!
+  confirmedBookings: Int!
+  cancelledBookings: Int!
+  averageBookingValue: Float!
+  topDestinations: [String!]!
+  bookingTrends: [BookingTrend!]!
+}
+
+type BookingTrend {
+  month: String!
+  bookings: Int!
+  revenue: Float!
+}
+
+type RevenueAnalytics {
+  totalRevenue: Float!
+  averageOrderValue: Float!
+  revenueByMonth: [RevenueByMonth!]!
+  topRevenueHotels: [String!]!
+}
+
+type RevenueByMonth {
+  month: String!
+  revenue: Float!
+  bookings: Int!
+}
+
+type UserAnalytics {
+  totalUsers: Int!
+  activeUsers: Int!
+  averageBonvoyPoints: Float!
+  topUserSegments: [String!]!
+}
+
+type OccupancyAnalytics {
+  averageOccupancy: Float!
+  occupancyByHotel: [OccupancyByHotel!]!
+  peakSeasons: [String!]!
+}
+
+type OccupancyByHotel {
+  hotelId: String!
+  occupancyRate: Float!
+  totalRooms: Int!
+  occupiedRooms: Int!
+}
+
+# Input Types
+input UserInput {
+  name: String
+  email: String!
+  password: String!
+  role: String
+  bonvoyNumber: String
+  bonvoyPoints: Int
+  bonvoyStatus: String
+}
+
+input HotelInput {
+  name: String!
+  location: String!
+  address: String!
+  description: String!
+  imageUrl: String!
+  rating: Float
+}
+
+input RoomInput {
+  hotelId: String!
+  type: String!
+  description: String!
+  price: Float!
+  capacity: Int!
+  amenities: String!
+  imageUrl: String!
+  available: Boolean
+}
+
+input AmenityInput {
+  name: String!
+  category: String!
+  description: String!
+  imageUrl: String
+  hotelId: String!
+}
+
+input RestaurantInput {
+  name: String!
+  hotelId: String!
+  cuisine: String!
+  priceRange: String!
+  openTime: String!
+  closeTime: String!
+  description: String!
+  imageUrl: String!
+}
+
+input ReservationInput {
+  restaurantId: String!
+  date: String!
+  time: String!
+  partySize: Int!
+  status: String
+}
+
+input ExperienceInput {
+  name: String!
+  hotelId: String!
+  type: String!
+  description: String!
+  price: Float!
+  duration: Int!
+  imageUrl: String!
+  available: Boolean
+}
+
+input ExperienceBookingInput {
+  experienceId: String!
+  date: String!
+  participants: Int!
+  status: String
+  specialRequests: String
+}
+
+input BookingInput {
+  userId: Int!
+  hotelId: String!
+  roomId: String!
+  checkIn: String!
+  checkOut: String!
+  guests: Int!
+  totalPrice: Float!
+  status: String
+}
+
+input OrderInput {
+  userId: Int!
+  stripeId: String!
+  amount: Float!
+  currency: String
+  status: String
+}
+
+input ReviewInput {
+  userId: Int!
+  hotelId: String!
+  rating: Int!
+  comment: String!
+}
+
+input ConversationInput {
+  userId: Int!
+  userMessage: String!
+  aiResponse: String!
+  threadId: String
 } 

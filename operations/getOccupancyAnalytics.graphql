@@ -1,0 +1,12 @@
+query GetOccupancyAnalytics {
+  occupancyAnalytics {
+    averageOccupancy
+    occupancyByHotel {
+      hotelId
+      occupancyRate
+      totalRooms
+      occupiedRooms
+    }
+    peakSeasons
+  }
+} 

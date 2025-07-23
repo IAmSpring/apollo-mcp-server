@@ -1,0 +1,19 @@
+query GetReviews {
+  reviews {
+    id
+    userId
+    user {
+      name
+      email
+    }
+    hotelId
+    hotel {
+      name
+      location
+    }
+    rating
+    comment
+    createdAt
+    updatedAt
+  }
+} 

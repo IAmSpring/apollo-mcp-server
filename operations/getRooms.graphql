@@ -1,0 +1,17 @@
+query GetRooms {
+  rooms {
+    id
+    hotelId
+    hotel {
+      name
+      location
+    }
+    type
+    description
+    price
+    capacity
+    amenities
+    imageUrl
+    available
+  }
+} 

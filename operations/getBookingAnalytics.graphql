@@ -1,0 +1,14 @@
+query GetBookingAnalytics {
+  bookingAnalytics {
+    totalBookings
+    confirmedBookings
+    cancelledBookings
+    averageBookingValue
+    topDestinations
+    bookingTrends {
+      month
+      bookings
+      revenue
+    }
+  }
+} 

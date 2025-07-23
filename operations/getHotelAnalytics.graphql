@@ -1,0 +1,11 @@
+query GetHotelAnalytics($hotelId: String!) {
+  hotelAnalytics(hotelId: $hotelId) {
+    hotelId
+    totalBookings
+    averageRating
+    occupancyRate
+    revenue
+    topAmenities
+    popularRooms
+  }
+} 

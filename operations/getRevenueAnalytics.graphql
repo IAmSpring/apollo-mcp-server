@@ -1,0 +1,12 @@
+query GetRevenueAnalytics {
+  revenueAnalytics {
+    totalRevenue
+    averageOrderValue
+    revenueByMonth {
+      month
+      revenue
+      bookings
+    }
+    topRevenueHotels
+  }
+} 

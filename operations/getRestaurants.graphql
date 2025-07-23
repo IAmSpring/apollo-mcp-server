@@ -1,0 +1,17 @@
+query GetRestaurants {
+  restaurants {
+    id
+    name
+    hotelId
+    hotel {
+      name
+      location
+    }
+    cuisine
+    priceRange
+    openTime
+    closeTime
+    description
+    imageUrl
+  }
+} 

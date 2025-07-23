@@ -1,0 +1,30 @@
+query GetHotels {
+  hotels {
+    id
+    name
+    location
+    address
+    description
+    imageUrl
+    rating
+    amenities {
+      id
+      name
+      category
+      description
+    }
+    rooms {
+      id
+      type
+      price
+      capacity
+      available
+    }
+    restaurants {
+      id
+      name
+      cuisine
+      priceRange
+    }
+  }
+} 

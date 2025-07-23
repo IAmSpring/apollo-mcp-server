@@ -1,0 +1,14 @@
+query GetConversations {
+  conversations {
+    id
+    userId
+    user {
+      name
+      email
+    }
+    userMessage
+    aiResponse
+    threadId
+    timestamp
+  }
+} 

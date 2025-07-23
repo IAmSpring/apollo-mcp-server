@@ -1,0 +1,14 @@
+query GetAmenities {
+  amenities {
+    id
+    name
+    category
+    description
+    imageUrl
+    hotelId
+    hotel {
+      name
+      location
+    }
+  }
+} 

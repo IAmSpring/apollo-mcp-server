@@ -1,0 +1,17 @@
+query GetExperiences {
+  experiences {
+    id
+    name
+    hotelId
+    hotel {
+      name
+      location
+    }
+    type
+    description
+    price
+    duration
+    imageUrl
+    available
+  }
+} 

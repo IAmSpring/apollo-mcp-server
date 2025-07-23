@@ -32,3 +32,187 @@ logging:
 headers:
   Content-Type: application/json
   User-Agent: Marriott-MCP-Server/1.0 
+
+tools:
+  - name: GetUsers
+    description: "Retrieve all users in the system with their Bonvoy information and booking history"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetUser
+    description: "Get detailed information about a specific user including their bookings, orders, and Bonvoy status"
+    inputSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the user"
+      required: [id]
+  
+  - name: GetHotels
+    description: "Retrieve all hotels with their amenities, rooms, and restaurant information"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetHotel
+    description: "Get comprehensive information about a specific hotel including rooms, amenities, restaurants, experiences, and reviews"
+    inputSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "The unique identifier of the hotel"
+      required: [id]
+  
+  - name: GetRooms
+    description: "Retrieve all rooms across all hotels with availability and pricing information"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetAvailableRooms
+    description: "Find available rooms for a specific hotel and date range"
+    inputSchema:
+      type: object
+      properties:
+        hotelId:
+          type: string
+          description: "The unique identifier of the hotel"
+        checkIn:
+          type: string
+          description: "Check-in date in YYYY-MM-DD format"
+        checkOut:
+          type: string
+          description: "Check-out date in YYYY-MM-DD format"
+      required: [hotelId, checkIn, checkOut]
+  
+  - name: GetAmenities
+    description: "Retrieve all hotel amenities categorized by type (wellness, recreation, etc.)"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetRestaurants
+    description: "Retrieve all hotel restaurants with cuisine types, pricing, and operating hours"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetReservations
+    description: "Retrieve all restaurant reservations with party size, dates, and status"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetExperiences
+    description: "Retrieve all hotel experiences and activities with pricing and availability"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetBookings
+    description: "Retrieve all hotel bookings with guest information, room details, and payment status"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetReservation
+    description: "Get detailed information about a specific booking including guest details, room information, and payment status"
+    inputSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the booking"
+      required: [id]
+  
+  - name: GetOrders
+    description: "Retrieve all payment orders with Stripe information and booking details"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetReviews
+    description: "Retrieve all hotel reviews with ratings, comments, and guest information"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetConversations
+    description: "Retrieve all AI conversation history with user messages and responses"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetHotelAnalytics
+    description: "Get comprehensive analytics for a specific hotel including bookings, revenue, and popular amenities"
+    inputSchema:
+      type: object
+      properties:
+        hotelId:
+          type: string
+          description: "The unique identifier of the hotel"
+      required: [hotelId]
+  
+  - name: GetBookingAnalytics
+    description: "Get overall booking analytics including trends, revenue, and destination popularity"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetRevenueAnalytics
+    description: "Get revenue analytics including total revenue, average order value, and monthly trends"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetUserAnalytics
+    description: "Get user analytics including total users, active users, and Bonvoy points statistics"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: GetOccupancyAnalytics
+    description: "Get occupancy analytics including average occupancy rates and peak seasons"
+    inputSchema:
+      type: object
+      properties: {}
+      required: []
+  
+  - name: SearchHotels
+    description: "Search for hotels by location, dates, and guest requirements"
+    inputSchema:
+      type: object
+      properties:
+        location:
+          type: string
+          description: "The location to search for hotels (e.g., 'New York, NY')"
+        checkIn:
+          type: string
+          description: "Check-in date in YYYY-MM-DD format"
+        checkOut:
+          type: string
+          description: "Check-out date in YYYY-MM-DD format"
+        guests:
+          type: integer
+          description: "Number of guests"
+        roomType:
+          type: string
+          description: "Preferred room type (e.g., 'Deluxe King', 'Executive Suite')"
+      required: [location, checkIn, checkOut] 

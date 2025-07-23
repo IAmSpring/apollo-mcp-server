@@ -1,0 +1,8 @@
+query GetUserAnalytics {
+  userAnalytics {
+    totalUsers
+    activeUsers
+    averageBonvoyPoints
+    topUserSegments
+  }
+} 

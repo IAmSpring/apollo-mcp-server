@@ -1,0 +1,23 @@
+query GetOrders {
+  orders {
+    id
+    userId
+    user {
+      name
+      email
+    }
+    stripeId
+    amount
+    currency
+    status
+    createdAt
+    updatedAt
+    bookings {
+      id
+      checkIn
+      checkOut
+      totalPrice
+      status
+    }
+  }
+} 
