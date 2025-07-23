@@ -1,5 +1,5 @@
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
+const { createHandler } = require('graphql-http/lib/use/express');
 const { buildSchema } = require('graphql');
 const cors = require('cors');
 
@@ -71,20 +71,53 @@ const mockReservations = [
     specialRequests: 'Late check-in requested',
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z'
+  },
+  {
+    id: '2',
+    confirmationNumber: '44444444444',
+    guestName: 'Sarah Johnson',
+    email: 'sarah.johnson@email.com',
+    phone: '+1-555-987-6543',
+    checkIn: '2024-03-20',
+    checkOut: '2024-03-25',
+    roomType: 'Executive Suite',
+    numberOfGuests: 3,
+    status: 'CONFIRMED',
+    totalAmount: 1245.00,
+    currency: 'USD',
+    hotel: mockHotels[1],
+    specialRequests: 'High floor preferred',
+    createdAt: '2024-02-10T14:20:00Z',
+    updatedAt: '2024-02-10T14:20:00Z'
+  },
+  {
+    id: '3',
+    confirmationNumber: 'MR987654321',
+    guestName: 'Michael Brown',
+    email: 'michael.brown@email.com',
+    phone: '+1-555-456-7890',
+    checkIn: '2024-04-10',
+    checkOut: '2024-04-12',
+    roomType: 'Standard Queen',
+    numberOfGuests: 1,
+    status: 'PENDING',
+    totalAmount: 598.00,
+    currency: 'USD',
+    hotel: mockHotels[0],
+    specialRequests: 'Early check-in if possible',
+    createdAt: '2024-03-05T09:15:00Z',
+    updatedAt: '2024-03-05T09:15:00Z'
   }
 ];
 
 // GraphQL Schema
 const schema = buildSchema(`
-  scalar Date
-  scalar DateTime
-
   type Query {
     reservation(confirmationNumber: String!): Reservation
     searchHotels(
       location: String!
-      checkIn: Date!
-      checkOut: Date!
+      checkIn: String!
+      checkOut: String!
       guests: Int
       roomType: String
     ): [Hotel!]!
@@ -102,8 +135,8 @@ const schema = buildSchema(`
     guestName: String!
     email: String!
     phone: String!
-    checkIn: Date!
-    checkOut: Date!
+    checkIn: String!
+    checkOut: String!
     roomType: String!
     numberOfGuests: Int!
     hotelId: ID!
@@ -115,8 +148,8 @@ const schema = buildSchema(`
     guestName: String
     email: String
     phone: String
-    checkIn: Date
-    checkOut: Date
+    checkIn: String
+    checkOut: String
     roomType: String
     numberOfGuests: Int
     specialRequests: String
@@ -128,8 +161,8 @@ const schema = buildSchema(`
     guestName: String!
     email: String!
     phone: String!
-    checkIn: Date!
-    checkOut: Date!
+    checkIn: String!
+    checkOut: String!
     roomType: String!
     numberOfGuests: Int!
     status: ReservationStatus!
@@ -137,8 +170,8 @@ const schema = buildSchema(`
     currency: String!
     hotel: Hotel!
     specialRequests: String
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Hotel {
@@ -249,10 +282,9 @@ const root = {
 };
 
 // GraphQL endpoint
-app.use('/graphql', graphqlHTTP({
+app.all('/graphql', createHandler({
   schema: schema,
   rootValue: root,
-  graphiql: true, // Enable GraphiQL interface for testing
 }));
 
 // Health check endpoint
@@ -273,6 +305,6 @@ app.get('/api/status', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Mock GraphQL API server running on http://localhost:${PORT}`);
-  console.log(`📊 GraphiQL interface available at http://localhost:${PORT}/graphql`);
+  console.log(`📊 GraphQL endpoint available at http://localhost:${PORT}/graphql`);
   console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
 }); 

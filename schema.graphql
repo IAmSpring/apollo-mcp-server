@@ -1,12 +1,9 @@
-scalar Date
-scalar DateTime
-
 type Query {
   reservation(confirmationNumber: String!): Reservation
   searchHotels(
     location: String!
-    checkIn: Date!
-    checkOut: Date!
+    checkIn: String!
+    checkOut: String!
     guests: Int
     roomType: String
   ): [Hotel!]!
@@ -24,8 +21,8 @@ input CreateBookingInput {
   guestName: String!
   email: String!
   phone: String!
-  checkIn: Date!
-  checkOut: Date!
+  checkIn: String!
+  checkOut: String!
   roomType: String!
   numberOfGuests: Int!
   hotelId: ID!
@@ -37,8 +34,8 @@ input UpdateReservationInput {
   guestName: String
   email: String
   phone: String
-  checkIn: Date
-  checkOut: Date
+  checkIn: String
+  checkOut: String
   roomType: String
   numberOfGuests: Int
   specialRequests: String
@@ -50,8 +47,8 @@ type Reservation {
   guestName: String!
   email: String!
   phone: String!
-  checkIn: Date!
-  checkOut: Date!
+  checkIn: String!
+  checkOut: String!
   roomType: String!
   numberOfGuests: Int!
   status: ReservationStatus!
@@ -59,8 +56,8 @@ type Reservation {
   currency: String!
   hotel: Hotel!
   specialRequests: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Hotel {

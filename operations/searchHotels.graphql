@@ -1,4 +1,4 @@
-query SearchHotels($location: String!, $checkIn: Date!, $checkOut: Date!, $guests: Int, $roomType: String) {
+query SearchHotels($location: String!, $checkIn: String!, $checkOut: String!, $guests: Int, $roomType: String) {
   searchHotels(
     location: $location
     checkIn: $checkIn

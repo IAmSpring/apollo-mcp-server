@@ -20,12 +20,15 @@ RUN npm run build
 FROM nginx:alpine
 
 # Install Node.js and curl for downloading
-RUN apk add --no-cache nodejs npm curl
+RUN apk add --no-cache nodejs npm curl tar
 
 # Download and install Apollo MCP Server binary
-RUN curl -L -o /usr/local/bin/apollo-mcp-server \
-    https://github.com/apollographql/apollo-mcp-server/releases/latest/download/apollo-mcp-server-x86_64-unknown-linux-musl \
-    && chmod +x /usr/local/bin/apollo-mcp-server
+RUN curl -L -o /tmp/apollo-mcp-server.tar.gz \
+    https://github.com/apollographql/apollo-mcp-server/releases/download/v0.5.2/apollo-mcp-server-v0.5.2-x86_64-unknown-linux-musl.tar.gz \
+    && tar -xzf /tmp/apollo-mcp-server.tar.gz -C /tmp \
+    && mv /tmp/dist/apollo-mcp-server /usr/local/bin/apollo-mcp-server \
+    && chmod +x /usr/local/bin/apollo-mcp-server \
+    && rm -rf /tmp/apollo-mcp-server*
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -33,28 +36,17 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copy built React app
 COPY --from=frontend-builder /app/frontend/build /usr/share/nginx/html
 
-# Create necessary directories
-RUN mkdir -p /data/operations /data/config
+# Copy start script and other files
+COPY start.sh /usr/local/bin/start.sh
+COPY config.yaml /app/config.yaml
+COPY operations/ /app/operations/
+COPY schema.graphql /app/schema.graphql
 
-# Copy default configuration
-COPY config.yaml /data/config/config.yaml
-
-# Copy example operations
-COPY operations/ /data/operations/
-
-# Copy startup script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# Make start script executable
+RUN chmod +x /usr/local/bin/start.sh
 
 # Expose ports
 EXPOSE 80 5000
 
-# Set working directory
-WORKDIR /data
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:80/health || exit 1
-
-# Start both nginx and MCP server
-CMD ["/start.sh"] 
+# Start both nginx and the MCP server
+CMD ["/usr/local/bin/start.sh"] 
